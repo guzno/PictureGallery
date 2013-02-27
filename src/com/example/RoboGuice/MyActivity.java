@@ -35,6 +35,8 @@ public class MyActivity extends RoboActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         name.setText("Hello, " + myName);
+
+        Log.d("TAG", "lol");
     }
 
     public void lol() {
