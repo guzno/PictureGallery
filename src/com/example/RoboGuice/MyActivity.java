@@ -1,5 +1,6 @@
 package com.example.RoboGuice;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -41,7 +42,8 @@ public class MyActivity extends RoboFragmentActivity {
         thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MyActivity.this, GalleryActivity.class);
+                startActivity(intent);
             }
         });
     }
