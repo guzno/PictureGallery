@@ -9,10 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.inject.Inject;
 import roboguice.activity.RoboActivity;
+import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 
-public class MyActivity extends RoboActivity {
+public class MyActivity extends RoboFragmentActivity {
     @InjectView(R.id.name)
     TextView name;
 
