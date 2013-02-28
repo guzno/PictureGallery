@@ -28,7 +28,7 @@ public class MyActivity extends RoboFragmentActivity implements View.OnClickList
     @InjectView(R.id.thumbnail2)
     ImageView thumbnail2;
 
-    @InjectResource(R.drawable.icon)
+    @InjectResource(R.drawable.thumbnail)
     Drawable icon;
 
     @InjectResource(R.string.app_name)
@@ -51,7 +51,7 @@ public class MyActivity extends RoboFragmentActivity implements View.OnClickList
         Bitmap bm = bitmapDrawable.getBitmap();
 
         Intent intent = new Intent(MyActivity.this, GalleryActivity.class);
-        intent.putExtra("img",R.drawable.icon);
+        intent.putExtra("img",R.drawable.thumbnail);
         Bundle scaleBundle = ActivityOptions.makeThumbnailScaleUpAnimation(view,
                 bm, 0, 0).toBundle();
 

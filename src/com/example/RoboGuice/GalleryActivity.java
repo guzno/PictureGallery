@@ -28,6 +28,6 @@ public class GalleryActivity extends RoboFragmentActivity {
 
         setContentView(R.layout.gallery);
         icon = getResources().getDrawable(getIntent().getIntExtra("img", 0));
-        image.setImageDrawable(icon);
+        //image.setImageDrawable(icon);
     }
 }
