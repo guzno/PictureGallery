@@ -27,12 +27,6 @@ public class MyActivity extends RoboFragmentActivity {
     @InjectResource(R.string.app_name)
     String myName;
 
-    @Inject
-    LocationManager loc;
-
-    @Inject
-    LayoutInflater inflater;
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
