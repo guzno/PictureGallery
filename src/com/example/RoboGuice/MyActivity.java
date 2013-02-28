@@ -17,12 +17,16 @@ import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 
-public class MyActivity extends RoboFragmentActivity {
+public class MyActivity extends RoboFragmentActivity implements View.OnClickListener
+{
     @InjectView(R.id.name)
     TextView name;
 
     @InjectView(R.id.thumbnail)
     ImageView thumbnail;
+
+    @InjectView(R.id.thumbnail2)
+    ImageView thumbnail2;
 
     @InjectResource(R.drawable.icon)
     Drawable icon;
@@ -35,20 +39,22 @@ public class MyActivity extends RoboFragmentActivity {
         setContentView(R.layout.main);
         name.setText("Hello, " + myName);
         thumbnail.setImageDrawable(icon);
+        thumbnail2.setImageDrawable(icon);
 
-        thumbnail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        thumbnail.setOnClickListener(this);
+        thumbnail2.setOnClickListener(this);
+    }
 
-                BitmapDrawable bitmapDrawable = (BitmapDrawable)getResources().getDrawable(R.drawable.slide_large_2);
-                Bitmap bm = bitmapDrawable.getBitmap();
+    @Override
+    public void onClick(View view) {
+        BitmapDrawable bitmapDrawable = (BitmapDrawable)getResources().getDrawable(R.drawable.icon);
+        Bitmap bm = bitmapDrawable.getBitmap();
 
-                Intent intent = new Intent(MyActivity.this, GalleryActivity.class);
-                Bundle scaleBundle = ActivityOptions.makeThumbnailScaleUpAnimation(thumbnail,
-                        bm, 0, 0).toBundle();
+        Intent intent = new Intent(MyActivity.this, GalleryActivity.class);
+        intent.putExtra("img",R.drawable.icon);
+        Bundle scaleBundle = ActivityOptions.makeThumbnailScaleUpAnimation(view,
+                bm, 0, 0).toBundle();
 
-                startActivity(intent, scaleBundle);
-            }
-        });
+        startActivity(intent, scaleBundle);
     }
 }

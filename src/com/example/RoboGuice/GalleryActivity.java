@@ -21,14 +21,13 @@ public class GalleryActivity extends RoboFragmentActivity {
     @InjectView(R.id.image)
     ImageView image;
 
-    @InjectResource(R.drawable.slide_large_2)
     Drawable icon;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.gallery);
-
+        icon = getResources().getDrawable(getIntent().getIntExtra("img", 0));
         image.setImageDrawable(icon);
     }
 }
