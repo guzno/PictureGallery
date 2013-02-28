@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.inject.Inject;
@@ -36,5 +37,11 @@ public class MyActivity extends RoboActivity {
         name.setText("Hello, " + myName);
         thumbnail.setImageDrawable(icon);
 
+        thumbnail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }
