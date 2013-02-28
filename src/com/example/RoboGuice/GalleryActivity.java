@@ -1,10 +1,12 @@
 package com.example.RoboGuice;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
 import roboguice.activity.RoboActivity;
 import roboguice.activity.RoboFragmentActivity;
+import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 
 /**
@@ -19,9 +21,14 @@ public class GalleryActivity extends RoboFragmentActivity {
     @InjectView(R.id.image)
     ImageView image;
 
+    @InjectResource(R.drawable.slide_large_2)
+    Drawable icon;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.gallery);
+
+        image.setImageDrawable(icon);
     }
 }
