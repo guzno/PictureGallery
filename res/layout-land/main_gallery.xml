@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+    >
+
+    <fragment
+        android:id="@+id/galleryfragment"
+        android:layout_height="match_parent"
+        android:layout_width="0dip"
+        class="se.magnulund.PictureGallery.fragments.GalleryFragment"
+        />
+
+    <fragment
+        android:id="@+id/detailfragment"
+        android:layout_height="match_parent"
+        android:layout_width="0dip"
+        />
+
+</GridLayout>
+
