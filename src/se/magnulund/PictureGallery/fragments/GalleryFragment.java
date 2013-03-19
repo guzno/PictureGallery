@@ -7,10 +7,13 @@ import android.provider.MediaStore;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import roboguice.fragment.RoboFragment;
+import roboguice.inject.InjectView;
 import se.magnulund.PictureGallery.R;
 
 /**
@@ -23,26 +26,43 @@ import se.magnulund.PictureGallery.R;
 public class GalleryFragment extends RoboFragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "GalleryFragment";
 
+    ListView listView;
+
+    GalleryFragmentInterface mGalleryFragmentInterface;
+
+    SimpleCursorAdapter mAdapter;
+
     public interface GalleryFragmentInterface {
         public void galleryItemClicked(int itemId);
     }
-
-    GalleryFragmentInterface mGalleryFragmentInterface;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         getLoaderManager().initLoader(R.id.gallery_fragment_loader, null, this);
+
+        mAdapter = new SimpleCursorAdapter(
+                getActivity(),
+                android.R.layout.simple_list_item_2,
+                null,
+                new String[]{MediaStore.Images.Media._ID},
+                new int[]{android.R.id.text1},
+                0);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.gallery_fragment, container, false);
+        View view = inflater.inflate(R.layout.gallery_fragment, container, false);
+
+        listView = (ListView)view.findViewById(android.R.id.list);
+
+        listView.setAdapter(mAdapter);
+        return view;
     }
 
     @Override
     public void onAttach(Activity activity) {
-        super.onAttach(activity);    //To change body of overridden methods use File | Settings | File Templates.
+        super.onAttach(activity);
         try {
             mGalleryFragmentInterface = (GalleryFragmentInterface) activity;
         } catch (ClassCastException e) {
@@ -53,17 +73,20 @@ public class GalleryFragment extends RoboFragment implements LoaderManager.Loade
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
-                MediaStore.Images.Media.DATA
+                MediaStore.Images.Media._ID
         };
+
         return new CursorLoader(getActivity(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        mAdapter.swapCursor(cursor);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 
 }
