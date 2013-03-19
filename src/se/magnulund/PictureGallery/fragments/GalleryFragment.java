@@ -36,6 +36,17 @@ public class GalleryFragment extends RoboFragment implements LoaderManager.Loade
         public void galleryItemClicked(int itemId);
     }
 
+    public static GalleryFragment newInstance(int index) {
+        GalleryFragment f = new GalleryFragment();
+
+        Bundle args = new Bundle();
+        args.putInt("index", index);
+        f.setArguments(args);
+
+        return f;
+    }
+
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
