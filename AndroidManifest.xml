@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PictureDetail"
+            android:name=".ImageDetail"
             android:label="Gallery">
 
             <intent-filter>

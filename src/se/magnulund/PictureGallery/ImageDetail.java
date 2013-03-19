@@ -10,7 +10,7 @@ import roboguice.activity.RoboFragmentActivity;
  * Time: 01:44
  * To change this template use File | Settings | File Templates.
  */
-public class PictureDetail extends RoboFragmentActivity {
+public class ImageDetail extends RoboFragmentActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
