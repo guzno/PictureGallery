@@ -1,7 +1,12 @@
 package se.magnulund.PictureGallery.fragments;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +20,7 @@ import se.magnulund.PictureGallery.R;
  * Time: 22:26
  * To change this template use File | Settings | File Templates.
  */
-public class GalleryFragment extends RoboFragment {
+public class GalleryFragment extends RoboFragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "GalleryFragment";
 
     public interface GalleryFragmentInterface {
@@ -27,6 +32,7 @@ public class GalleryFragment extends RoboFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getLoaderManager().initLoader(R.id.gallery_fragment_loader, null, this);
     }
 
     @Override
@@ -43,4 +49,21 @@ public class GalleryFragment extends RoboFragment {
             throw new ClassCastException(activity.toString() + " must implement GalleryFragmentInterface");
         }
     }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        String[] projection = {
+                MediaStore.Images.Media.DATA
+        };
+        return new CursorLoader(getActivity(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+    }
+
 }
