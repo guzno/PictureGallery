@@ -16,13 +16,25 @@ import se.magnulund.PictureGallery.R;
  * To change this template use File | Settings | File Templates.
  */
 public class GalleryFragment extends RoboFragment {
+
     private static final String TAG = "GalleryFragment";
+
+    GalleryFragmentInterface mGalleryFragmentInterface;
 
     public interface GalleryFragmentInterface {
         public void galleryItemClicked(int itemId);
     }
 
-    GalleryFragmentInterface mGalleryFragmentInterface;
+    public static GalleryFragment newInstance(int index) {
+        GalleryFragment f = new GalleryFragment();
+
+        Bundle args = new Bundle();
+        args.putInt("index", index);
+        f.setArguments(args);
+
+        return f;
+    }
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
