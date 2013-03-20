@@ -4,4 +4,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+    <ImageView android:id="@+id/ImageDetailView"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:scaleType="centerInside"
+               android:contentDescription="@string/image_description"/>
+
 </RelativeLayout>
