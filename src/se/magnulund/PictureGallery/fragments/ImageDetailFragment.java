@@ -59,7 +59,7 @@ public class ImageDetailFragment extends RoboFragment {
 
         View view = inflater.inflate(R.layout.image_detail_fragment, container, false);
 
-        ImageView imageView = (ImageView) view.findViewById(R.id.ImageDetailView);
+        ImageView imageView = (ImageView) view.findViewById(R.id.image_detail);
 
         String imageId = Integer.toString(getArguments().getInt(IMAGE_ID));
 
