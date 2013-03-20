@@ -3,11 +3,10 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
         >
-    <fragment
+    <View
         android:id="@+id/galleryfragment"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:name="se.magnulund.PictureGallery.fragments.GalleryFragment"
         />
 </RelativeLayout>
 
