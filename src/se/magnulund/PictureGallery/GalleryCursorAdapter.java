@@ -2,12 +2,18 @@ package se.magnulund.PictureGallery;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.IOException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,15 +30,29 @@ public class GalleryCursorAdapter extends CursorAdapter {
     }
 
     private class ViewHolder {
-        TextView text1;
-        TextView text2;
+        TextView caption;
+        ImageView imageView;
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        ViewHolder holder = (ViewHolder)view.getTag();
-        holder.text1.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media._ID)));
-        holder.text2.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA)));
+        ViewHolder holder = (ViewHolder) view.getTag();
+
+        String imageId = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media._ID));
+
+        Uri uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, imageId);
+
+        Bitmap bitmap;
+
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+            holder.imageView.setImageBitmap(bitmap);
+
+        } catch (IOException e) {
+            Log.e(TAG, "File not found: " + e.toString(), e);
+        }
+
+        holder.caption.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media._ID)));
     }
 
     @Override
@@ -42,8 +62,8 @@ public class GalleryCursorAdapter extends CursorAdapter {
 
         ViewHolder holder = new ViewHolder();
 
-        holder.text1 = (TextView)view.findViewById(android.R.id.text1);
-        holder.text2 = (TextView)view.findViewById(android.R.id.text2);
+        holder.caption = (TextView) view.findViewById(R.id.caption);
+        holder.imageView = (ImageView) view.findViewById(R.id.imageView);
 
         view.setTag(holder);
 
