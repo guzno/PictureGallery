@@ -7,12 +7,14 @@ import android.provider.MediaStore;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import roboguice.fragment.RoboFragment;
+import se.magnulund.PictureGallery.GalleryCursorAdapter;
 import se.magnulund.PictureGallery.R;
 
 /**
@@ -29,7 +31,7 @@ public class GalleryFragment extends RoboFragment implements LoaderManager.Loade
 
     GalleryFragmentInterface mGalleryFragmentInterface;
 
-    SimpleCursorAdapter mAdapter;
+    CursorAdapter mAdapter;
 
     public interface GalleryFragmentInterface {
         public void galleryItemClicked(int itemId);
@@ -51,6 +53,7 @@ public class GalleryFragment extends RoboFragment implements LoaderManager.Loade
 
         getLoaderManager().initLoader(R.id.gallery_fragment_loader, null, this);
 
+        /*
         mAdapter = new SimpleCursorAdapter(
                 getActivity(),
                 android.R.layout.simple_list_item_2,
@@ -58,6 +61,8 @@ public class GalleryFragment extends RoboFragment implements LoaderManager.Loade
                 new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA},
                 new int[]{android.R.id.text1, android.R.id.text2},
                 0);
+        */
+        mAdapter = new GalleryCursorAdapter(getActivity(), null, 0);
     }
 
     @Override
