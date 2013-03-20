@@ -12,6 +12,7 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import roboguice.fragment.RoboFragment;
 import se.magnulund.PictureGallery.GalleryCursorAdapter;
@@ -53,15 +54,6 @@ public class GalleryFragment extends RoboFragment implements LoaderManager.Loade
 
         getLoaderManager().initLoader(R.id.gallery_fragment_loader, null, this);
 
-        /*
-        mAdapter = new SimpleCursorAdapter(
-                getActivity(),
-                android.R.layout.simple_list_item_2,
-                null,
-                new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA},
-                new int[]{android.R.id.text1, android.R.id.text2},
-                0);
-        */
         mAdapter = new GalleryCursorAdapter(getActivity(), null, 0);
     }
 
@@ -72,6 +64,15 @@ public class GalleryFragment extends RoboFragment implements LoaderManager.Loade
         listView = (ListView) view.findViewById(android.R.id.list);
 
         listView.setAdapter(mAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor cursor = (Cursor)mAdapter.getItem(position);
+                int imageId = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.Media._ID));
+                mGalleryFragmentInterface.galleryItemClicked(imageId);
+            }
+        });
         return view;
     }
 
