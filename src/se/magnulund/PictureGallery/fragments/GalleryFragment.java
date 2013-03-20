@@ -17,6 +17,7 @@ import android.widget.ListView;
 import roboguice.fragment.RoboFragment;
 import se.magnulund.PictureGallery.GalleryCursorAdapter;
 import se.magnulund.PictureGallery.R;
+import se.magnulund.PictureGallery.views.StaggeredGridView;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +29,7 @@ import se.magnulund.PictureGallery.R;
 public class GalleryFragment extends RoboFragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "GalleryFragment";
 
-    ListView listView;
+    StaggeredGridView staggeredGridView;
 
     GalleryFragmentInterface mGalleryFragmentInterface;
 
@@ -61,18 +62,18 @@ public class GalleryFragment extends RoboFragment implements LoaderManager.Loade
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gallery_fragment, container, false);
 
-        listView = (ListView) view.findViewById(android.R.id.list);
+        staggeredGridView = (StaggeredGridView) view.findViewById(android.R.id.list);
 
-        listView.setAdapter(mAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        staggeredGridView.setAdapter(mAdapter);
+        staggeredGridView.setOnItemClickListener(new StaggeredGridView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(StaggeredGridView parent, View view, int position, long id) {
                 Cursor cursor = (Cursor)mAdapter.getItem(position);
                 int imageId = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.Media._ID));
                 mGalleryFragmentInterface.galleryItemClicked(imageId);
             }
         });
+
         return view;
     }
 
