@@ -53,8 +53,6 @@ public class ImageDetailFragment extends RoboFragment {
 
         ImageView imageView = (ImageView) view.findViewById(R.id.ImageDetailView);
 
-        CursorLoader cursorLoader =
-
         return view;
     }
 

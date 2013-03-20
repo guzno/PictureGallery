@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import roboguice.fragment.RoboFragment;
-import roboguice.inject.InjectView;
 import se.magnulund.PictureGallery.R;
 
 /**
@@ -56,8 +55,8 @@ public class GalleryFragment extends RoboFragment implements LoaderManager.Loade
                 getActivity(),
                 android.R.layout.simple_list_item_2,
                 null,
-                new String[]{MediaStore.Images.Media._ID},
-                new int[]{android.R.id.text1},
+                new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA},
+                new int[]{android.R.id.text1, android.R.id.text2},
                 0);
     }
 
@@ -65,7 +64,7 @@ public class GalleryFragment extends RoboFragment implements LoaderManager.Loade
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gallery_fragment, container, false);
 
-        listView = (ListView)view.findViewById(android.R.id.list);
+        listView = (ListView) view.findViewById(android.R.id.list);
 
         listView.setAdapter(mAdapter);
         return view;
@@ -84,7 +83,8 @@ public class GalleryFragment extends RoboFragment implements LoaderManager.Loade
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
-                MediaStore.Images.Media._ID
+                MediaStore.Images.Media._ID,
+                MediaStore.Images.Media.DATA
         };
 
         return new CursorLoader(getActivity(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, null);
