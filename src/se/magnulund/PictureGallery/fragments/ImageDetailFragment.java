@@ -1,14 +1,23 @@
 package se.magnulund.PictureGallery.fragments;
 
 import android.app.Activity;
+import android.content.ContentProvider;
+import android.content.ContentResolver;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import roboguice.fragment.RoboFragment;
 import se.magnulund.PictureGallery.R;
+
+import java.io.IOException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,11 +32,10 @@ public class ImageDetailFragment extends RoboFragment {
     private static final String INDEX = "index";
     public static final String IMAGE_ID = "image_id";
 
-    public static ImageDetailFragment newInstance(int index, int imageId) {
+    public static ImageDetailFragment newInstance(int imageId) {
         ImageDetailFragment f = new ImageDetailFragment();
 
         Bundle args = new Bundle();
-        args.putInt(INDEX, index);
         args.putInt(IMAGE_ID, imageId);
         f.setArguments(args);
 
@@ -53,7 +61,20 @@ public class ImageDetailFragment extends RoboFragment {
 
         ImageView imageView = (ImageView) view.findViewById(R.id.ImageDetailView);
 
-        CursorLoader cursorLoader =
+        String imageId = Integer.toString(getArguments().getInt(IMAGE_ID));
+
+        Uri uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, imageId);
+
+        Bitmap bitmap;
+
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+            imageView.setImageBitmap(bitmap);
+
+        } catch (IOException e) {
+            Log.e(TAG, "File not found: " + e.toString(), e);
+        }
+
 
         return view;
     }
