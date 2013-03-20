@@ -9,8 +9,6 @@ import se.magnulund.PictureGallery.fragments.ImageDetailFragment;
 public class MainGallery extends RoboFragmentActivity implements GalleryFragment.GalleryFragmentInterface {
     private static final String TAG = "MainGallery";
 
-    FragmentTransaction fragmentTransaction;
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_gallery);
@@ -20,7 +18,7 @@ public class MainGallery extends RoboFragmentActivity implements GalleryFragment
 
         GalleryFragment galleryFragment = GalleryFragment.newInstance();
 
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         fragmentTransaction.add(R.id.galleryfragment, galleryFragment);
         //fragmentTransaction.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
@@ -33,6 +31,8 @@ public class MainGallery extends RoboFragmentActivity implements GalleryFragment
     @Override
     public void galleryItemClicked(int itemId) {
         ImageDetailFragment imageDetailFragment = ImageDetailFragment.newInstance(itemId);
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         fragmentTransaction.replace(R.id.galleryfragment, imageDetailFragment);
         fragmentTransaction.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
