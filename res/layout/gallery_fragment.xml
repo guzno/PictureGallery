@@ -5,9 +5,10 @@
                 android:layout_height="match_parent"
                 android:background="#33FF0000">
 
-    <ListView android:id="@android:id/list"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+    <se.magnulund.PictureGallery.views.StaggeredGridView android:id="@android:id/list"
+                                                         android:layout_width="match_parent"
+                                                         android:layout_height="match_parent"
+                                                         numColumns="2"
             />
 
 </RelativeLayout>
