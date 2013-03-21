@@ -28,8 +28,8 @@ public class MainGallery extends RoboFragmentActivity implements GalleryFragment
     }
 
     @Override
-    public void galleryItemClicked(int itemId) {
-        ImageDetailFragment imageDetailFragment = ImageDetailFragment.newInstance(itemId);
+    public void galleryItemClicked(int itemId, String itemPath, int itemWidth) {
+        ImageDetailFragment imageDetailFragment = ImageDetailFragment.newInstance(itemId, itemPath, itemWidth);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 

@@ -78,6 +78,10 @@ public class BitmapLoaderTask extends AsyncTask<BitmapLoaderTask.BitmapLoaderPar
         }
     }
 
+    public BitmapLoaderParams getBitmapLoaderParams(String path, int imageWidth, int reqWidth){
+         return new BitmapLoaderParams(path, imageWidth, reqWidth);
+    }
+
     public static class BitmapLoaderParams {
         String path;
         int imageWidth;

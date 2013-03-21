@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import roboguice.fragment.RoboFragment;
+import se.magnulund.PictureGallery.BitmapLoaderTask;
 import se.magnulund.PictureGallery.R;
 
 import java.io.IOException;
@@ -30,13 +31,17 @@ public class ImageDetailFragment extends RoboFragment {
     private static final String TAG = "ImageDetailFragment";
 
     private static final String INDEX = "index";
-    public static final String IMAGE_ID = "image_id";
+    private static final String IMAGE_ID = "image_id";
+    private static final String IMAGE_PATH = "image_path";
+    private static final String IMAGE_WIDTH = "image_width";
 
-    public static ImageDetailFragment newInstance(int imageId) {
+    public static ImageDetailFragment newInstance(int imageId, String imagePath, int imageWidth) {
         ImageDetailFragment f = new ImageDetailFragment();
 
         Bundle args = new Bundle();
         args.putInt(IMAGE_ID, imageId);
+        args.putString(IMAGE_PATH, imagePath);
+        args.putInt(IMAGE_WIDTH, imageWidth);
         f.setArguments(args);
 
         return f;
@@ -50,8 +55,24 @@ public class ImageDetailFragment extends RoboFragment {
         getArguments().putInt(IMAGE_ID, imageId);
     }
 
+    public String getImagePath() {
+        return getArguments().getString(IMAGE_PATH);
+    }
+
+    private void setImagePath(String imagePath) {
+        getArguments().putString(IMAGE_PATH, imagePath);
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    public int getImageWidth() {
+        return getArguments().getInt(IMAGE_WIDTH);
+    }
+
+    private void setImageWidth(int imageWidth) {
+        getArguments().putInt(IMAGE_WIDTH, imageWidth);
     }
 
     @Override
@@ -61,7 +82,14 @@ public class ImageDetailFragment extends RoboFragment {
 
         ImageView imageView = (ImageView) view.findViewById(R.id.image_detail);
 
-        String imageId = Integer.toString(getArguments().getInt(IMAGE_ID));
+        int reqWidth = view.getMeasuredWidth();
+
+        BitmapLoaderTask bitmapLoaderTask = new BitmapLoaderTask(imageView);
+        BitmapLoaderTask.BitmapLoaderParams bitmapLoaderParams = bitmapLoaderTask.getBitmapLoaderParams(getImagePath(), getImageWidth(), reqWidth);
+
+        bitmapLoaderTask.execute(bitmapLoaderParams);
+
+        /*String imageId = Integer.toString(getArguments().getInt(IMAGE_ID));
 
         Uri uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, imageId);
 
@@ -73,7 +101,7 @@ public class ImageDetailFragment extends RoboFragment {
 
         } catch (IOException e) {
             Log.e(TAG, "File not found: " + e.toString(), e);
-        }
+        }*/
 
 
         return view;

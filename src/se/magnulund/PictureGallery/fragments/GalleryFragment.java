@@ -8,14 +8,12 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import roboguice.fragment.RoboFragment;
 import se.magnulund.PictureGallery.GalleryCursorAdapter;
+import se.magnulund.PictureGallery.views.GalleryImageView;
 import se.magnulund.PictureGallery.R;
 import se.magnulund.PictureGallery.views.StaggeredGridView;
 
@@ -36,7 +34,7 @@ public class GalleryFragment extends RoboFragment implements LoaderManager.Loade
     CursorAdapter mAdapter;
 
     public interface GalleryFragmentInterface {
-        public void galleryItemClicked(int itemId);
+        public void galleryItemClicked(int itemId, String itemPath, int itemWidth);
     }
 
     public static GalleryFragment newInstance() {
@@ -64,9 +62,8 @@ public class GalleryFragment extends RoboFragment implements LoaderManager.Loade
         staggeredGridView.setOnItemClickListener(new StaggeredGridView.OnItemClickListener() {
             @Override
             public void onItemClick(StaggeredGridView parent, View view, int position, long id) {
-                Cursor cursor = (Cursor)mAdapter.getItem(position);
-                int imageId = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.Media._ID));
-                mGalleryFragmentInterface.galleryItemClicked(imageId);
+                GalleryImageView imageView = (GalleryImageView) view;
+                mGalleryFragmentInterface.galleryItemClicked(imageView.getImageID(), imageView.getImagePath(), imageView.getImageFullWidth());
             }
         });
 
