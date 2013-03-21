@@ -87,7 +87,9 @@ public class GalleryFragment extends RoboFragment implements LoaderManager.Loade
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
                 MediaStore.Images.Media._ID,
-                MediaStore.Images.Media.DATA
+                MediaStore.Images.Media.DATA,
+                MediaStore.MediaColumns.HEIGHT,
+                MediaStore.MediaColumns.WIDTH
         };
 
         return new CursorLoader(getActivity(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, null);

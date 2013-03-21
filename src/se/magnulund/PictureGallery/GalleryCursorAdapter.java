@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,41 +39,7 @@ public class GalleryCursorAdapter extends CursorAdapter {
         ImageView imageView;
     }
 
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth) {
-        // Raw height and width of image
-        final int width = options.outWidth;
-        int inSampleSize = 1;
 
-        if (width > reqWidth) {
-
-            // Calculate ratios of height and width to requested height and width
-            final int widthRatio = Math.round((float) width / (float) reqWidth);
-
-            // Choose the smallest ratio as inSampleSize value, this will guarantee
-            // a final image with both dimensions larger than or equal to the
-            // requested height and width.
-            inSampleSize = widthRatio;
-        }
-
-        return inSampleSize;
-    }
-
-    public static Bitmap decodeSampledBitmapFromFile(String path, int reqWidth) {
-
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth);
-
-        Log.e(TAG, "inSampleSize: " + options.inSampleSize);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(path, options);
-    }
 
 
     @Override
@@ -79,10 +48,16 @@ public class GalleryCursorAdapter extends CursorAdapter {
 
         Bitmap bitmap;
 
-        bitmap = decodeSampledBitmapFromFile(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA)), view.getMeasuredWidth());
-        holder.imageView.setImageBitmap(bitmap);
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        int imageWidth = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns.WIDTH));
+        int imageHeight= cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns.HEIGHT));
+        int reqWidth = view.getMeasuredWidth();
 
-        holder.caption.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA)));
+        BitmapLoaderTask.BitmapLoaderParams bitmapLoaderParams = new BitmapLoaderTask.BitmapLoaderParams(path, imageWidth, reqWidth);
+        BitmapLoaderTask bitmapLoaderTask = new BitmapLoaderTask(holder.imageView);
+        bitmapLoaderTask.execute(bitmapLoaderParams);
+
+        holder.caption.setText(imageWidth+"X"+imageHeight);
     }
 
     @Override
@@ -100,3 +75,4 @@ public class GalleryCursorAdapter extends CursorAdapter {
         return view;
     }
 }
+

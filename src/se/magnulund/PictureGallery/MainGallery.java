@@ -16,16 +16,15 @@ public class MainGallery extends RoboFragmentActivity implements GalleryFragment
         getLoaderManager();
         getSupportLoaderManager();
 
-        GalleryFragment galleryFragment = GalleryFragment.newInstance();
+        if (savedInstanceState == null) {
+            GalleryFragment galleryFragment = GalleryFragment.newInstance();
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-        fragmentTransaction.add(R.id.galleryfragment, galleryFragment);
-        //fragmentTransaction.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            fragmentTransaction.add(R.id.galleryfragment, galleryFragment);
 
-        fragmentTransaction.addToBackStack("Gallery");
-
-        fragmentTransaction.commit();
+            fragmentTransaction.commit();
+        }
     }
 
     @Override
