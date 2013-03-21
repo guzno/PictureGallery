@@ -2,8 +2,10 @@ package se.magnulund.PictureGallery;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,13 +46,17 @@ public class GalleryCursorAdapter extends CursorAdapter {
         int id = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.Media._ID));
         int reqWidth = view.getMeasuredWidth();
 
+        Log.e(TAG, "width: "+reqWidth);
+
         holder.imageView.setImageID(id);
         holder.imageView.setImagePath(path);
         holder.imageView.setImageFullWidth(imageWidth);
 
+        view.setMinimumHeight(reqWidth);
+
         BitmapLoaderTask.BitmapLoaderParams bitmapLoaderParams = new BitmapLoaderTask.BitmapLoaderParams(path, imageWidth, reqWidth);
-        BitmapLoaderTask bitmapLoaderTask = new BitmapLoaderTask(holder.imageView);
-        bitmapLoaderTask.execute(bitmapLoaderParams);
+        BitmapLoaderTask bitmapLoaderTask = new BitmapLoaderTask(holder.imageView, id);
+        bitmapLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, bitmapLoaderParams);
 
         holder.caption.setText(imageWidth+"X"+imageHeight);
     }
@@ -63,7 +69,7 @@ public class GalleryCursorAdapter extends CursorAdapter {
         ViewHolder holder = new ViewHolder();
 
         holder.caption = (TextView) view.findViewById(R.id.caption);
-        holder.imageView = (GalleryImageView) view.findViewById(R.id.imageView);
+        holder.imageView = (GalleryImageView) view.findViewById(R.id.image_view);
 
         view.setTag(holder);
 

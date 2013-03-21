@@ -1,24 +1,15 @@
 package se.magnulund.PictureGallery.fragments;
 
 import android.app.Activity;
-import android.content.ContentProvider;
-import android.content.ContentResolver;
-import android.graphics.Bitmap;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import roboguice.fragment.RoboFragment;
 import se.magnulund.PictureGallery.BitmapLoaderTask;
 import se.magnulund.PictureGallery.R;
-
-import java.io.IOException;
+import se.magnulund.PictureGallery.views.GalleryImageView;
 
 /**
  * Created with IntelliJ IDEA.
@@ -67,11 +58,11 @@ public class ImageDetailFragment extends RoboFragment {
         super.onCreate(savedInstanceState);
     }
 
-    public int getImageWidth() {
+    public int getImageFullWidth() {
         return getArguments().getInt(IMAGE_WIDTH);
     }
 
-    private void setImageWidth(int imageWidth) {
+    private void setImageFullWidth(int imageWidth) {
         getArguments().putInt(IMAGE_WIDTH, imageWidth);
     }
 
@@ -80,14 +71,22 @@ public class ImageDetailFragment extends RoboFragment {
 
         View view = inflater.inflate(R.layout.image_detail_fragment, container, false);
 
-        ImageView imageView = (ImageView) view.findViewById(R.id.image_detail);
+        String path = getImagePath();
+        int imageId = getImageId();
+        int imageWidth = getImageFullWidth();
+
+        GalleryImageView imageView = (GalleryImageView) view.findViewById(R.id.image_detail);
+
+        imageView.setImagePath(path);
+        imageView.setImageID(imageId);
+        imageView.setImageFullWidth(imageWidth);
 
         int reqWidth = view.getMeasuredWidth();
 
-        BitmapLoaderTask bitmapLoaderTask = new BitmapLoaderTask(imageView);
-        BitmapLoaderTask.BitmapLoaderParams bitmapLoaderParams = bitmapLoaderTask.getBitmapLoaderParams(getImagePath(), getImageWidth(), reqWidth);
+        BitmapLoaderTask bitmapLoaderTask = new BitmapLoaderTask(imageView, imageId);
+        BitmapLoaderTask.BitmapLoaderParams bitmapLoaderParams = bitmapLoaderTask.getBitmapLoaderParams(path, imageId, imageId);
 
-        bitmapLoaderTask.execute(bitmapLoaderParams);
+        bitmapLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, bitmapLoaderParams);
 
         /*String imageId = Integer.toString(getArguments().getInt(IMAGE_ID));
 

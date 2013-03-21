@@ -62,7 +62,7 @@ public class GalleryFragment extends RoboFragment implements LoaderManager.Loade
         staggeredGridView.setOnItemClickListener(new StaggeredGridView.OnItemClickListener() {
             @Override
             public void onItemClick(StaggeredGridView parent, View view, int position, long id) {
-                GalleryImageView imageView = (GalleryImageView) view;
+                GalleryImageView imageView = (GalleryImageView) view.findViewById(R.id.image_view);
                 mGalleryFragmentInterface.galleryItemClicked(imageView.getImageID(), imageView.getImagePath(), imageView.getImageFullWidth());
             }
         });
